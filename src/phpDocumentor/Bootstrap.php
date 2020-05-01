@@ -142,6 +142,15 @@ class Bootstrap
                 . $this->getCustomVendorPathFromComposer($composerConfigurationPath);
         }
 
+        // HACK to fix https://github.com/phpDocumentor/phpDocumentor/issues/1954
+        // Try one additional path
+        $rootFolderWhenInstalledWithComposer = $baseDir . '/../../../../../../';
+        $composerConfigurationPath           = $rootFolderWhenInstalledWithComposer .'composer.json';
+        if (file_exists($composerConfigurationPath)) {
+            $vendorDir = $rootFolderWhenInstalledWithComposer
+                . $this->getCustomVendorPathFromComposer($composerConfigurationPath);
+        }
+
         return file_exists($vendorDir) ? $vendorDir : null;
     }
 
